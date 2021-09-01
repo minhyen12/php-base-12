@@ -1,12 +1,14 @@
 <?php
-    function checkString($str) {
-	    if ((strpos($str, 'restaurant') !== false && strpos($str, 'book') === false) || (strpos($str, 'restaurant') === false && strpos($str, 'book') !== false)) {
+    function checkString($str, $word1, $word2) 
+    {
+	    if ((strpos($str, $word1) && !strpos($str, $word2)) || (!strpos($str, $word1) && strpos($str, $word2))) {
 		    return true;
 	    }
 	    return false;
     }
 
-    function countWord($str) {
+    function countWord($str) 
+    {
         $strArr = explode(".", $str); 
         $count = count($strArr); 
         foreach ($strArr as $item) {
@@ -17,22 +19,22 @@
         return $count;
     }
 
-    $filename = ['file1.txt', 'file2.txt'] ;
-    foreach ($filename as $key => $value) {
-        $myfile = fopen($value, 'r');
-        $connect = fread($myfile, filesize($value));
-        if(checkString($connect) === true) {
+    function checkFile($fileName, $word1, $word2) 
+    {
+        $myfile = fopen($fileName, 'r');
+        $connect = fread($myfile, filesize($fileName));
+        if(checkString($connect, $word1, $word2)) {
             $countWord = countWord($connect);
             echo "chuoi hop le<br>";
-            echo "Số câu trong chuỗi: ".$countWord."<br>";
-        }
-        else {
+            echo "Số câu trong chuỗi: ". $countWord ."<br>";
+        } else {
             echo 'chuoi khong hop le<br>';
         }
         fclose($myfile);
-        if ($key < count($filename) - 1) {
-            echo "======================================<br>";
-            //test
-        }
+        echo "<br>";
     }
+
+    checkFile('file1.txt', 'restaurant', 'book');
+    checkFile('file2.txt', 'restaurant', 'book');
+    
 ?> 
